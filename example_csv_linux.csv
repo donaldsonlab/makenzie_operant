@@ -1,0 +1,2 @@
+vole,vole_2,day,title,runtime,finished,rounds_completed,args,script_path,script_setup,hardware_setup,output_path
+1,2,1,testing time,6_8_2023__14_52,False,,,/home/pi/makenzie_experiment/makenzie_operant/scripts/door_choice.py,/home/pi/makenzie_experiment/makenzie_operant/setup_files/setup_files/door_choice_testing.yaml,/home/pi/makenzie_experiment/local_hardware.yaml,/home/pi/makenzie_experiment/outputs

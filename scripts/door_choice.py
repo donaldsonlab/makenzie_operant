@@ -21,31 +21,22 @@ def run():
     box.setup(run_dict=RUNTIME_DICT, 
               user_hardware_config_file_path=USER_HARDWARE_CONFIG_PATH,
               user_software_config_file_path=USER_SOFTWARE_CONFIG_PATH,
-              start_now=False, simulated = False)
+              start_now=True, simulated = False)
     
-    if box.software_config['checks']['trigger_on_start']:
-        
-        trigger_object = box.outputs.miniscope_trigger.prepare_trigger()
     
     #simplifying hardware calls
     door_1 = box.doors.door_1
     door_2 = box.doors.door_2
     lever_1 = box.levers.lever_1
     lever_2 = box.levers.lever_2
-    speaker = box.speakers.speaker
+    speaker = box.speakers.speaker1
     delay = box.get_delay()
     
-    if box.software_config['checks']['trigger_on_start']:
-        box.start_and_trigger([trigger_object])
     box.reset()
-    #get LED pulses to pass to other functions
-    press_led_pulse = box.outputs.event_LED.prepare_pulse(length = box.software_config['LED_pulses']['lever_press'], pulse_string = 'lever_press')
-    new_round_pulse = box.outputs.round_LED.prepare_pulse(length = box.software_config['LED_pulses']['new_round'], pulse_string = 'new_round')
-    FR = box.get_software_setting(location = 'values', setting_name='FR', default = 3)
+    FR = box.get_software_setting(location = 'values', setting_name='FR', default = 1)
     for i in range(1,box.software_config['values']['rounds']+1, 1):
 
         box.timing.new_round()
-        new_round_pulse()
         
         phase = box.timing.new_phase('levers_out', box.software_config['values']['lever_out'])
         
@@ -54,8 +45,8 @@ def run():
         press_latency_2 = box.levers.lever_2.extend(wait = True)
         
         #start the actual lever-out phase
-        lever_1.wait_for_n_presses(n=FR, latency_obj = press_latency_1, on_press_events = [press_led_pulse])
-        lever_2.wait_for_n_presses(n=FR, latency_obj = press_latency_2, on_press_events = [press_led_pulse])
+        lever_1.wait_for_n_presses(n=FR, latency_obj = press_latency_1)
+        lever_2.wait_for_n_presses(n=FR, latency_obj = press_latency_2)
         
         while phase.active():
         
@@ -98,9 +89,6 @@ def run():
                 door_1.close()
             elif door_2.is_open():
                 door_2.close()
-            box.outputs.round_LED.activate()
-            box.inputs.iti.wait_for_press()
-            box.outputs.round_LED.deactivate()
 
         phase = box.timing.new_phase(name='ITI', length =box.software_config['values']['ITI_length'])
         

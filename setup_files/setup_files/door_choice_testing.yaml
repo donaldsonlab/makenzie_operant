@@ -17,7 +17,7 @@ LED_pulses:
   new_round: 0.5
 
 speaker_tones:
-  speaker:
+  speaker1:
     round_start:
       hz: 5000
       length: 1
