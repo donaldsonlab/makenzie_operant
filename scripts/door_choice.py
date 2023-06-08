@@ -51,7 +51,8 @@ def run():
         while phase.active():
         
             if lever_1.presses_reached:
-                lever_1.retract()
+                lat = lever_1.retract()
+                box.beams.door2_ir.monitor_beam_break(latency_to_first_beambreak = lat, end_with_phase=reward_phase)
                 lever_2.retract()
                 speaker.play_tone(tone_name = 'door_2_open', wait = True)
                 
@@ -61,12 +62,13 @@ def run():
                 phase.end_phase()
                 reward_phase = box.timing.new_phase('reward_phase',length = box.software_config['values']['reward_time'])
                 
-                lat = door_2.open()
-                box.beams.door2_ir.monitor_beam_break(latency_to_first_beambreak = lat, end_with_phase=reward_phase)
+                door_2.open()
+                
                 
             elif lever_2.presses_reached:
                 lever_1.retract()
-                lever_2.retract()
+                lat = lever_2.retract()
+                box.beams.door1_ir.monitor_beam_break(latency_to_first_beambreak = lat, end_with_phase=reward_phase)
                 speaker.play_tone(tone_name = 'door_1_open', wait = True)
                 
                 timeout = box.timing.new_timeout(length = delay)
@@ -75,8 +77,8 @@ def run():
                 phase.end_phase()
                 reward_phase = box.timing.new_phase('reward_phase',length = box.software_config['values']['reward_time'])
                 
-                lat = door_1.open()
-                box.beams.door1_ir.monitor_beam_break(latency_to_first_beambreak = lat, end_with_phase=reward_phase)
+                door_1.open()
+                
 
         if not lever_1.presses_reached and not lever_2.presses_reached:
             lever_1.retract()
