@@ -1,0 +1,53 @@
+output_path: 'default'
+
+checks:
+  save_timestamps: True
+  trigger_on_start: False
+
+  serial_send:
+    door_1: True
+    door_2: True
+    door_1_tone: True
+    door_2_tone: True
+    minus_tone: True
+    new_round: True
+    speaker: True
+
+values:
+  delay: 5
+  door_order: ['door_2', 'door_1', 'door_1', 'minus', 'minus', 'door_1', 'minus', 'door_1', 'door_1', 'door_2', 'door_1', 'minus', 'door_2', 'door_2', 'minus', 'door_2', 'door_2', 'minus']
+  reward_length: 
+    door_1: 15
+    door_2: 15
+    minus: 15
+  ITI_length: 45
+
+LED_pulses:
+  new_round: 0.5
+
+speaker_tones:
+  speaker:
+    door_1_tone:
+      type: structured
+      hz: 3000
+      #milliseconds
+      on_time: 100
+      off_time: 10
+      #seconds
+      length: 2
+    
+    door_2_tone:
+      type: structured
+      hz: 6000
+      #milliseconds
+      on_time: 250
+      off_time: 200
+      #seconds
+      length: 2
+
+    minus_tone:
+      type: continuous
+      hz: 1000
+      #seconds
+      length: 2
+    

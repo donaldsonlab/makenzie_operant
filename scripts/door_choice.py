@@ -28,8 +28,8 @@ def run():
     door_1 = box.doors.door_1
     door_2 = box.doors.door_2
     lever_1 = box.levers.lever_1
-    lever_2 = box.levers.lever_2
-    speaker = box.speakers.speaker1
+    lever_2 = box.levers.lever_3
+    speaker = box.speakers.speaker
     delay = box.get_delay()
     
     box.reset()
@@ -41,8 +41,8 @@ def run():
         phase = box.timing.new_phase('levers_out', box.software_config['values']['lever_out'])
         
         speaker.play_tone(tone_name = 'round_start', wait = True)
-        press_latency_1 = box.levers.lever_1.extend()
-        press_latency_2 = box.levers.lever_2.extend(wait = True)
+        press_latency_1 = lever_1.extend()
+        press_latency_2 = lever_2.extend(wait = True)
         
         #start the actual lever-out phase
         lever_1.wait_for_n_presses(n=FR, latency_obj = press_latency_1)
