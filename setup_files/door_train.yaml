@@ -19,19 +19,30 @@ LED_pulses:
   new_round: 0.5
 
 speaker_tones:
-  speaker1:
-    round_start:
-      hz: 5000
-      length: 1
-    pellet_tone:
-      hz: 8000
-      length: 1
+  speaker:
     door_1_open:
-      hz: 12000
-      length: 1
+      type: structured
+      hz: 3000
+      #milliseconds
+      on_time: 100
+      off_time: 10
+      #seconds
+      length: 2
+    
     door_2_open:
-      hz: 2500
-      length: 1
+      type: structured
+      hz: 6000
+      #milliseconds
+      on_time: 250
+      off_time: 200
+      #seconds
+      length: 2
+
+    round_start:
+      type: continuous
+      hz: 1000
+      #seconds
+      length: 2
     
     click_on: 
       tone_1:

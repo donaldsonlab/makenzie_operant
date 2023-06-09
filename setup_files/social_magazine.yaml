@@ -2,10 +2,9 @@ output_path: 'default'
 
 checks:
   save_timestamps: True
-  trigger_on_start: True
+
 
 values:
-  delay_by_day: [0,0,0,2,2]
   lever_out_to_reward: 3
   post_reward_retraction_delay: 3
   reps: 5
@@ -18,18 +17,29 @@ values:
 
 speaker_tones:
   speaker:
-    round_start:
-      hz: 5000
-      length: 1
-    pellet_tone:
-      hz: 8000
-      length: 1
     door_1_open:
-      hz: 12000
-      length: 1
+      type: structured
+      hz: 3000
+      #milliseconds
+      on_time: 100
+      off_time: 10
+      #seconds
+      length: 2
+    
     door_2_open:
-      hz: 2500
-      length: 1
+      type: structured
+      hz: 6000
+      #milliseconds
+      on_time: 250
+      off_time: 200
+      #seconds
+      length: 2
+
+    round_start:
+      type: continuous
+      hz: 1000
+      #seconds
+      length: 2
     
     click_on: 
       tone_1:
