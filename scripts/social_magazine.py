@@ -75,7 +75,7 @@ def run():
         box.timing.new_round()
 
         
-        lever_phase = box.timing.new_phase(lever.name + '_out', box.software_config['values']['lever_out_to_reward']+box.software_config['values']['post_reward_retraction_delay'])
+        lever_phase = box.timing.new_phase(lever.name + '_out', box.software_config['values']['lever_out_to_reward']+box.software_config['values']['post_reward_retraction_delay']+5)
         speaker.play_tone(tone_name = 'round_start', wait = True)
         pause = box.timing.new_timeout(length = 0.25)
         pause.wait()

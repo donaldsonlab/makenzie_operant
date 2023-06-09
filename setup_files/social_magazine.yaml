@@ -9,7 +9,7 @@ values:
   post_reward_retraction_delay: 3
   reps: 5
   sets: 2
-  reward_length: 45
+  reward_length: 30
   ITI_length: 45
   FR: 1
 
