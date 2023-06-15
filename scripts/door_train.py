@@ -21,12 +21,9 @@ def run():
     box.setup(run_dict=RUNTIME_DICT, 
               user_hardware_config_file_path=USER_HARDWARE_CONFIG_PATH,
               user_software_config_file_path=USER_SOFTWARE_CONFIG_PATH,
-              start_now=False, simulated = False)
+              start_now=True, simulated = False)
     phase = box.timing.new_phase('setup_phase', length = 5)
     
-    if box.software_config['checks']['trigger_on_start']:
-        
-        trigger_object = box.outputs.miniscope_trigger.prepare_trigger()
     
     #simplifying hardware calls
     door_1 = box.doors.door_1
@@ -50,6 +47,12 @@ def run():
     
     rep = 1
     phase.end_phase()
+    
+    #start beam break monitoring. calculate durations
+    box.beams.door1_ir.start_getting_beam_broken_durations() 
+    
+
+    box.beams.door2_ir.start_getting_beam_broken_durations() 
     for i in range(1,box.software_config['values']['reps']*box.software_config['values']['sets']*2+1, 1):
         
         if rep > box.software_config['values']['reps']:
@@ -74,7 +77,9 @@ def run():
         
         lever_phase = box.timing.new_phase(lever.name + '_out', box.software_config['values']['lever_out'])
         speaker.play_tone(tone_name = 'round_start', wait = True)
-        pause = box.timing.new_timeout(length = 0.5)
+        
+        #short pause between round start tone and lever coming out
+        pause = box.timing.new_timeout(length = 1)
         pause.wait()
         press_latency = lever.extend()
         
@@ -85,11 +90,6 @@ def run():
         
             if lever.presses_reached:
                 lat = lever.retract()
-                if door.name == 'door_1':
-                    box.beams.door1_ir.monitor_beam_break(latency_to_first_beambreak = lat, end_with_phase=reward_phase)
-                else:
-                    box.beams.door2_ir.monitor_beam_break(latency_to_first_beambreak = lat, end_with_phase=reward_phase)
-
                 speaker.play_tone(tone_name = tone, wait = True)
                 
                 timeout = box.timing.new_timeout(length = delay)
@@ -112,21 +112,12 @@ def run():
             lever_phase.end_phase()
             reward_phase = box.timing.new_phase('reward_phase',length = box.software_config['values']['reward_length'])
             
-            lat = door.open()
+            door.open()
             
-            if door.name == 'door_1':
-                box.beams.door1_ir.monitor_beam_break(latency_to_first_beambreak = lat, end_with_phase=reward_phase)
-            else:
-                box.beams.door2_ir.monitor_beam_break(latency_to_first_beambreak = lat, end_with_phase=reward_phase)
-            
-       
         
         reward_phase.wait()
         door.close()
 
-        box.outputs.round_LED.activate()
-        box.inputs.iti.wait_for_press()
-        box.outputs.round_LED.deactivate()
         lever.reset_lever()
         
             
