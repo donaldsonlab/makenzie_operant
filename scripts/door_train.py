@@ -21,12 +21,9 @@ def run():
     box.setup(run_dict=RUNTIME_DICT, 
               user_hardware_config_file_path=USER_HARDWARE_CONFIG_PATH,
               user_software_config_file_path=USER_SOFTWARE_CONFIG_PATH,
-              start_now=False, simulated = False)
+              start_now=True, simulated = False)
     phase = box.timing.new_phase('setup_phase', length = 5)
     
-    if box.software_config['checks']['trigger_on_start']:
-        
-        trigger_object = box.outputs.miniscope_trigger.prepare_trigger()
     
     #simplifying hardware calls
     door_1 = box.doors.door_1
