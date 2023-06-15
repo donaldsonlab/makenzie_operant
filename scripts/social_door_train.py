@@ -21,20 +21,15 @@ def run():
     box.setup(run_dict=RUNTIME_DICT, 
               user_hardware_config_file_path=USER_HARDWARE_CONFIG_PATH,
               user_software_config_file_path=USER_SOFTWARE_CONFIG_PATH,
-              start_now=False, simulated = False)
+              start_now=True, simulated = False, verbose = False)
     phase = box.timing.new_phase('setup_phase', length = 5)
-    
-    if box.software_config['checks']['trigger_on_start']:
-        
-        trigger_object = box.outputs.miniscope_trigger.prepare_trigger()
-    
+
     #simplifying hardware calls
     door_1 = box.doors.door_1
     door_2 = box.doors.door_2
     lever_1 = box.levers.lever_1
     lever_2 = box.levers.lever_3
     speaker = box.speakers.speaker
-    delay = box.get_delay()
     FR = box.get_software_setting(location = 'values', setting_name='FR', default = 1)
 
     box.reset()
@@ -50,12 +45,14 @@ def run():
     
     rep = 1
     phase.end_phase()
-    
+
     #start beam break monitoring. calculate durations
     box.beams.door1_ir.start_getting_beam_broken_durations() 
     
 
     box.beams.door2_ir.start_getting_beam_broken_durations() 
+    
+
     for i in range(1,box.software_config['values']['reps']*box.software_config['values']['sets']*2+1, 1):
         
         if rep > box.software_config['values']['reps']:
@@ -78,25 +75,23 @@ def run():
         box.timing.new_round()
 
         
-        lever_phase = box.timing.new_phase(lever.name + '_out', box.software_config['values']['lever_out'])
+        lever_phase = box.timing.new_phase(lever.name + '_out', box.software_config['values']['lever_out_to_reward']+box.software_config['values']['post_reward_retraction_delay']+5)
         speaker.play_tone(tone_name = 'round_start', wait = True)
-        
-        #short pause between round start tone and lever coming out
-        pause = box.timing.new_timeout(length = 1)
+        pause = box.timing.new_timeout(length = 0.25)
         pause.wait()
         press_latency = lever.extend()
         
         #start the actual lever-out phase
         lever.wait_for_n_presses(n = FR, latency_obj = press_latency)
-        while lever_phase.active():
+        post_lever_timeout = box.timing.new_timeout(length = box.software_config['values']['lever_out_to_reward'])
+        while lever_phase.active() and post_lever_timeout.active():
             '''waiting here for something to happen'''
         
             if lever.presses_reached:
                 lat = lever.retract()
+
                 speaker.play_tone(tone_name = tone, wait = True)
                 
-                timeout = box.timing.new_timeout(length = delay)
-                timeout.wait()
                 
                 lever_phase.end_phase()
                 reward_phase = box.timing.new_phase('reward_phase',length = box.software_config['values']['reward_length'])
@@ -106,17 +101,22 @@ def run():
                 
         #only dispense if not already dispensed
         if not lever.presses_reached:
-            lever.retract()
+            
             speaker.play_tone(tone_name = tone, wait = True)
-                
-            timeout = box.timing.new_timeout(length = delay)
-            timeout.wait()
             
-            lever_phase.end_phase()
+            lat = door.open()
+            
+            
+            
             reward_phase = box.timing.new_phase('reward_phase',length = box.software_config['values']['reward_length'])
+            timeout = box.timing.new_timeout(length = box.software_config['values']['post_reward_retraction_delay'])
+            timeout.wait()
+            lever.retract()
+            lever_phase.end_phase()
             
-            door.open()
             
+           
+       
         
         reward_phase.wait()
         door.close()
@@ -129,7 +129,9 @@ def run():
         phase.wait()
         rep+=1
     
-    
+    # Stop tracking beam breaks (interaction zone) until next round
+    box.beams.door1_ir.stop_getting_beam_broken_durations() # quits thread that gets durations
+    box.beams.door2_ir.end_monitoring() # quits thread that timestamps every beam break
     box.shutdown()
 
 if __name__ == '__main__':
