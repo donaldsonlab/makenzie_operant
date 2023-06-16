@@ -68,7 +68,8 @@ def run():
             next_lever = l
             next_door = d
             next_tone = t
-            
+        
+        print(f"rep {rep} of {box.software_config['values']['reps']} for {door.name}")
             
             
         
