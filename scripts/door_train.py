@@ -75,12 +75,13 @@ def run():
         box.timing.new_round()
 
         
-        lever_phase = box.timing.new_phase(lever.name + '_out', box.software_config['values']['lever_out'])
+        
         speaker.play_tone(tone_name = 'round_start', wait = True)
         
         #short pause between round start tone and lever coming out
         pause = box.timing.new_timeout(length = 1)
         pause.wait()
+        lever_phase = box.timing.new_phase(lever.name + '_out', box.software_config['values']['lever_out'])
         press_latency = lever.extend()
         
         #start the actual lever-out phase
