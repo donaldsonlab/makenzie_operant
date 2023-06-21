@@ -100,8 +100,10 @@ def run():
                 door.open()
                 reward_phase.wait()
                 door.close()
-            
-
+        
+        if not lever.presses_reached:    
+            lever.retract()
+        
         lever.reset_lever()
         
             
