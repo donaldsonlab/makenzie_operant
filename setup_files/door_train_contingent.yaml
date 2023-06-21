@@ -2,15 +2,19 @@ output_path: 'default'
 
 checks:
   save_timestamps: True
-  trigger_on_start: True
-  
+
+
 values:
-  delay_by_day: [0, 1, 2, 3]
+  delay_by_day: [0.5,1,1,2,2]
+  delay_default: 2
   lever_out: 60
-  reps: 4
+  reps: 5
   sets: 2
-  reward_length: 60
+  reward_length: 30
   ITI_length: 45
+  FR: 1
+
+
 
 speaker_tones:
   speaker:
