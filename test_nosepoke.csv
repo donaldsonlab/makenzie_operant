@@ -1,0 +1,2 @@
+vole,day,title,runtime,finished,rounds_completed,script_path,script_setup,hardware_setup,output_path,args,Unnamed: 11
+1,1,nosepoke_test,7_10_2023__17_10,False,,/home/pi/makenzie_operant/scripts/nose_poke.py,/home/pi/makenzie_operant/setup_files/nose_poke.yaml,/home/pi/makenzie_operant/setup_files/nose_poke_hardware.yaml,/home/pi/test_outputs,,

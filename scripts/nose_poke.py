@@ -16,7 +16,7 @@ def run():
               user_software_config_file_path=USER_SOFTWARE_CONFIG_PATH,
               start_now=True, simulated = False)
     phase = box.timing.new_phase('setup_phase', length = 5)
-    
+    box.reset()
     
     #simplifying hardware calls
     door_1 = box.doors.door_1
@@ -29,13 +29,14 @@ def run():
     #start beam break monitoring. calculate durations
     box.beams.door1_ir.start_getting_beam_broken_durations() 
     box.beams.door2_ir.start_getting_beam_broken_durations() 
+    phase.wait()
     poke_1.begin_monitoring()
     poke_2.begin_monitoring()
     
-    total_time = box.get_software_settings(location = 'values', setting_name = 'total_time', default = 30*60)
+    total_time = box.get_software_setting(location = 'values', setting_name = 'experiment_length', default = 30*60)
     
     #wait to finish setup
-    phase.wait()
+    
     box.timing.new_round()
     total_time_phase = box.timing.new_phase('experiment', length = total_time)
     
@@ -55,6 +56,7 @@ def run():
                 poke_1.set_poke_target(FR)
         
         if poke_1.pokes_reached:
+            
             door_2.open()
             reward_phase_d2 = box.timing.new_phase('reward_phase',length = box.software_config['values']['reward_length'])
             poke_1.reset_poke_count()
