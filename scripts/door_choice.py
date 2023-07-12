@@ -23,7 +23,7 @@ def run():
               user_software_config_file_path=USER_SOFTWARE_CONFIG_PATH,
               start_now=True, simulated = False)
     
-    
+    phase = box.timing.new_phase('setup_phase', length = 5)
     #simplifying hardware calls
     door_1 = box.doors.door_1
     door_2 = box.doors.door_2
@@ -33,6 +33,14 @@ def run():
     delay = box.get_delay()
     
     box.reset()
+
+    
+    box.beams.door1_ir.start_getting_beam_broken_durations() 
+    
+
+    box.beams.door2_ir.start_getting_beam_broken_durations()
+    phase.end_phase()
+
     FR = box.get_software_setting(location = 'values', setting_name='FR', default = 1)
     for i in range(1,box.software_config['values']['rounds']+1, 1):
 
@@ -52,7 +60,6 @@ def run():
         
             if lever_1.presses_reached:
                 lat = lever_1.retract()
-                box.beams.door2_ir.monitor_beam_break(latency_to_first_beambreak = lat, end_with_phase=reward_phase)
                 lever_2.retract()
                 speaker.play_tone(tone_name = 'door_2_open', wait = True)
                 
@@ -68,7 +75,6 @@ def run():
             elif lever_2.presses_reached:
                 lever_1.retract()
                 lat = lever_2.retract()
-                box.beams.door1_ir.monitor_beam_break(latency_to_first_beambreak = lat, end_with_phase=reward_phase)
                 speaker.play_tone(tone_name = 'door_1_open', wait = True)
                 
                 timeout = box.timing.new_timeout(length = delay)
