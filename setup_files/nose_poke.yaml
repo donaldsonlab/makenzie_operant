@@ -8,7 +8,7 @@ values:
   delay_by_day: [0.5,]
   reward_length: 15
   FR: 1
-  experiment_length: 900
+  experiment_length: 2100
 
 
 

@@ -7,26 +7,26 @@ doors:
   door_1:
     servo: 0
     stop: 0.05
-    close: -0.1
+    close: -0.5
     open: 0.8
-    open_time: 1.6
+    open_time: 2.5
     override_open_pin: 24
     override_close_pin: 25
     state_switch: 4
     servo_type: continuous
-    close_timeout: 5
+    close_timeout: 30
  
   door_2:
     servo: 13
     stop: 0.03
     close: 0.8
     open: -0.2
-    open_time: 1.6
+    open_time: 2.5
     override_open_pin: 6
     override_close_pin: 5
     state_switch: 17
     servo_type: continuous
-    close_timeout: 5
+    close_timeout: 30
 
 beams: 
   door1_ir: 
@@ -37,6 +37,7 @@ beams:
     pullup_pulldown: pullup
 
 nose_pokes:
+  #same pin as food lever
   nose_port_1:
     pin: 27
     pullup_pulldown: pullup
@@ -46,6 +47,7 @@ nose_pokes:
       type: HAT
       channel: 5
 
+  #same pin as lever 1
   nose_port_2:
     pin: 18
     pullup_pulldown: pullup
