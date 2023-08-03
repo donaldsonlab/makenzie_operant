@@ -23,6 +23,8 @@ def run():
     door_2 = box.doors.door_2
     poke_1 = box.nose_pokes.nose_port_1
     poke_2 = box.nose_pokes.nose_port_2
+    LED_1 = box.outputs.LED_1
+    LED_2 = box.outputs.LED_2
     speaker = box.speakers.speaker
     delay = box.get_delay()
     FR = box.get_software_setting(location = 'values', setting_name='FR', default = 1)
@@ -47,21 +49,24 @@ def run():
     
     poke_1.set_poke_target(FR)
     poke_2.set_poke_target(FR)
-    
+    poke_1.activate_LED()
+    poke_2.activate_LED()
     while total_time_phase.active():
         
         if door_1.is_open():
             if not reward_phase_d1.active():
                 door_1.close(wait = True)
                 poke_2.set_poke_target(FR)
+                poke_2.activate_LED()
         
         if door_2.is_open():
             if not reward_phase_d2.active():
                 door_2.close(wait = True)
                 poke_1.set_poke_target(FR)
+                poke_1.activate_LED()
         
         if poke_1.pokes_reached:
-            
+            poke_1.deactivate_LED()
             speaker.play_tone(tone_name = 'door_2_open', wait = True)
             timeout = box.timing.new_timeout(length = delay)
             timeout.wait()
@@ -70,6 +75,7 @@ def run():
             poke_1.reset_poke_count()
             
         if poke_2.pokes_reached:
+            poke_2.deactivate_LED()
             speaker.play_tone(tone_name = 'door_1_open', wait = True)
             timeout = box.timing.new_timeout(length = delay)
             timeout.wait()
