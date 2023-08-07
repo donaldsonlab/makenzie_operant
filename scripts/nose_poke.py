@@ -55,13 +55,13 @@ def run():
             if not reward_phase_d1.active():
                 door_1.close(wait = True)
                 poke_2.set_poke_target(FR)
-                poke_2.activate_LED()
+                poke_2.activate_LED(percent_brightness = 50)
         
         if door_2.is_open():
             if not reward_phase_d2.active():
                 door_2.close(wait = True)
                 poke_1.set_poke_target(FR)
-                poke_1.activate_LED()
+                poke_1.activate_LED(percent_brightness = 50)
         
         if poke_1.pokes_reached:
             poke_1.deactivate_LED()
