@@ -14,7 +14,7 @@ def run():
     box.setup(run_dict=RUNTIME_DICT, 
               user_hardware_config_file_path=USER_HARDWARE_CONFIG_PATH,
               user_software_config_file_path=USER_SOFTWARE_CONFIG_PATH,
-              start_now=True, simulated = False, verbose = True)
+              start_now=True, simulated = False, verbose = False)
     phase = box.timing.new_phase('setup_phase', length = 3)
     box.reset()
     
@@ -23,8 +23,6 @@ def run():
     door_2 = box.doors.door_2
     poke_1 = box.nose_pokes.nose_port_1
     poke_2 = box.nose_pokes.nose_port_2
-    LED_1 = box.outputs.LED_1
-    LED_2 = box.outputs.LED_2
     speaker = box.speakers.speaker
     delay = box.get_delay()
     FR = box.get_software_setting(location = 'values', setting_name='FR', default = 1)
