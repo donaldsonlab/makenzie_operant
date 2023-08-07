@@ -2,7 +2,7 @@ from RPI_Operant.hardware.box import Box
 
 from pathlib import Path
 experiment_name = Path(__file__).stem
-RUNTIME_DICT = {'vole':000, 'day':1, 'experiment':experiment_name, 'side':'same', 'active_door':'door_1'}
+RUNTIME_DICT = {'vole':000, 'day':1, 'experiment':experiment_name, 'port_side':'same', 'active_door':'door_1'}
 # # For Running on the Raspberry Pi: 
 USER_HARDWARE_CONFIG_PATH = '/home/pi/local_rpi_files/default_hardware.yaml'
 USER_SOFTWARE_CONFIG_PATH = '/home/pi/miniscope_dec_2022/setup_files/door_train.yaml'
@@ -20,12 +20,12 @@ def run():
     
     door_1 = box.doors.door_1
     door_2 = box.doors.door_2
-    if RUNTIME_DICT['side'] == 'same':
+    if RUNTIME_DICT['port_side'] == 'same':
     #simplifying hardware calls
 
         poke_d1 = box.nose_pokes.nose_port_1
         poke_d2 = box.nose_pokes.nose_port_2
-    if RUNTIME_DICT['side'] == 'opposite':
+    if RUNTIME_DICT['port_side'] == 'opposite':
         poke_d1 = box.nose_pokes.nose_port_2
         poke_d2 = box.nose_pokes.nose_port_1
     
@@ -56,10 +56,11 @@ def run():
     door_2_reward = False
     
     
-    if RUNTIME_DICT['active_door'] == door_1:
+    if RUNTIME_DICT['active_door'] == 'door_1':
         poke_d1.set_poke_target(FR)
         poke_d1.activate_LED()
-        non_contingent_timer = box.timing.new_timeout(length = box.software_config['non_contingent_interval'])
+        non_contingent_timer =box.timing.new_phase('non_contingent_timer', length =  box.get_software_setting(location = 'values', setting_name='non_contingent_interval', 
+                                                             default = 90))
 
         while total_time_phase.active():
             
@@ -72,18 +73,19 @@ def run():
                     non_contingent_timer.reset()
             
 
-            if not non_contingent_timer.active():
-                poke_d2.deactivate_LED()
+            if not non_contingent_timer.active() and not door_1_reward:
+                poke_d1.deactivate_LED()
+                poke_d1.reset_poke_count()
                 speaker.play_tone(tone_name = 'door_2_open', wait = True)
                 timeout = box.timing.new_timeout(length = delay)
                 timeout.wait()
-                door_2.open()
-                door_2_reward = True
-                reward_phase_d2 = box.timing.new_phase('reward_phase_d2',length = box.software_config['values']['reward_length'])
-                poke_d2.reset_poke_count()
-                non_contingent_timer.reset()
+                door_1.open()
+                door_1_reward = True
+                reward_phase_d1 = box.timing.new_phase('reward_phase_d1',length = box.software_config['values']['reward_length'])
                 
-            if poke_d1.pokes_reached:
+                
+                
+            if poke_d1.pokes_reached and not door_1_reward:
                 poke_d1.deactivate_LED()
                 speaker.play_tone(tone_name = 'door_1_open', wait = True)
                 timeout = box.timing.new_timeout(length = delay)
@@ -99,7 +101,8 @@ def run():
     elif RUNTIME_DICT['active_door'] == 'door_2':
         poke_d2.set_poke_target(FR)
         poke_d2.activate_LED()
-        non_contingent_timer = box.timing.new_timeout(length = box.software_config['non_contingent_interval'])
+        non_contingent_timer =box.timing.new_phase('non_contingent_timer', length =  box.get_software_setting(location = 'values', setting_name='non_contingent_interval', 
+                                                             default = 90))
         while total_time_phase.active():
             
             if door_2_reward:
@@ -110,18 +113,17 @@ def run():
                     poke_d2.activate_LED()
                     non_contingent_timer.reset()
                     
-            if not non_contingent_timer.active():
+            if not non_contingent_timer.active() and not door_2_reward:
                 poke_d2.deactivate_LED()
+                poke_d2.reset_poke_count()
                 speaker.play_tone(tone_name = 'door_2_open', wait = True)
                 timeout = box.timing.new_timeout(length = delay)
                 timeout.wait()
                 door_2.open()
                 door_2_reward = True
                 reward_phase_d2 = box.timing.new_phase('reward_phase_d2',length = box.software_config['values']['reward_length'])
-                poke_d2.reset_poke_count()
-                non_contingent_timer.reset()
                 
-            if poke_d2.pokes_reached:
+            if poke_d2.pokes_reached and not door_2_reward:
                 non_contingent_timer.reset()
                 poke_d2.deactivate_LED()
                 speaker.play_tone(tone_name = 'door_2_open', wait = True)
