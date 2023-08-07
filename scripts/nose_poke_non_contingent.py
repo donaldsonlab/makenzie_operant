@@ -58,7 +58,7 @@ def run():
     
     if RUNTIME_DICT['active_door'] == 'door_1':
         poke_d1.set_poke_target(FR)
-        poke_d1.activate_LED()
+        poke_d1.activate_LED(percent_brightness = 50)
         non_contingent_timer =box.timing.new_phase('non_contingent_timer', length =  box.get_software_setting(location = 'values', setting_name='non_contingent_interval', 
                                                              default = 90))
 

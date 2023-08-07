@@ -43,9 +43,8 @@ nose_pokes:
     pullup_pulldown: pullup
     interpoke_interval: 0.1
     LED:
-      event_LED:
       type: HAT
-      channel: 5
+      channel: 15
 
   #same pin as lever 1
   nose_port_2:
@@ -53,23 +52,10 @@ nose_pokes:
     pullup_pulldown: pullup
     interpoke_interval: 0.1
     LED:
-      event_LED:
       type: HAT
-      channel: 5
+      channel: 14
 
 outputs:
-  round_LED:
-    type: HAT
-    channel: 4
-
-  miniscope_trigger:
-    type: GPIO
-    pin: 19
-
-
-  led_GPIO_test:
-    type: GPIO
-    pin: 21
 
 inputs:
   iti:
