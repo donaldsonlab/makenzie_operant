@@ -9,7 +9,7 @@ values:
   reward_length: 15
   FR: 1
   experiment_length: 2100
-  non_contingent_interval: 10
+  non_contingent_interval: 90
 
 
 speaker_tones:
