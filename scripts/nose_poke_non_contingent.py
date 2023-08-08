@@ -112,7 +112,11 @@ def run():
             poke_active.reset_poke_count()
             non_contingent_timer.reset()
             
-      
+    if door_reward:
+        reward_phase.wait()
+        door_active.close(wait = True)
+        box.timing.new_timeout(length = 1)
+        
     box.shutdown()
 
 if __name__ == '__main__':
