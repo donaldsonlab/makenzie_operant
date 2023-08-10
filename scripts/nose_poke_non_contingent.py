@@ -20,6 +20,10 @@ def run():
     
     door_1 = box.doors.door_1
     door_2 = box.doors.door_2
+
+    box.nose_pokes.nose_port_1.deactivate_LED()
+    box.nose_pokes.nose_port_2.deactivate_LED()
+    
     if RUNTIME_DICT['port_side'] == 'same':
     #simplifying hardware calls
         poke_d1 = box.nose_pokes.nose_port_1
@@ -116,7 +120,7 @@ def run():
         reward_phase.wait()
         door_active.close(wait = True)
         box.timing.new_timeout(length = 1)
-        
+
     box.shutdown()
 
 if __name__ == '__main__':
