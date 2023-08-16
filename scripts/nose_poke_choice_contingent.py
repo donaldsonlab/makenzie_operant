@@ -65,8 +65,10 @@ def run():
 
 
     poke_d1.set_poke_target(FR)
+    poke_d1.activate_LED(percent_brightness = 50)
+    
+    poke_d2.set_poke_target(FR)
     poke_d2.activate_LED(percent_brightness = 50)
-
 
     while total_time_phase.active():
         
