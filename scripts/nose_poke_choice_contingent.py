@@ -120,7 +120,15 @@ def run():
             poke_d2.reset_poke_count()
             
             
-
+    if door_1_reward or door_2_reward:
+        if door_2_reward:
+            d2_reward_phase.wait()
+            door_2.close()
+        else:
+            d1_reward_phase.wait()
+            door_1.close()
+        
+        box.timing.new_timeout(length = 1)
     box.shutdown()
 
 if __name__ == '__main__':
