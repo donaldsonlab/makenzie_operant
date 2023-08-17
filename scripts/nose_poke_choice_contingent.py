@@ -69,14 +69,14 @@ def run():
     
     poke_d2.set_poke_target(FR)
     poke_d2.activate_LED(percent_brightness = 50)
-    pokes_active_phase = box.timing.new_phase('pokes_active', length = 1000)
+    pokes_active_phase = box.timing.new_phase('pokes_active', length = total_time_phase.get_time_remaining())
     while total_time_phase.active():
         
         if door_1_reward:
             if not d1_reward_phase.active():
                 door_1_reward = False
                 door_1.close(wait = True)
-                pokes_active_phase = box.timing.new_phase('pokes_active', length = 1000)
+                pokes_active_phase = box.timing.new_phase('pokes_active', length = total_time_phase.get_time_remaining())
                 poke_d1.set_poke_target(FR)
                 poke_d2.set_poke_target(FR)
                 poke_d1.activate_LED()
@@ -86,7 +86,7 @@ def run():
             if not d2_reward_phase.active():
                 door_2_reward = False
                 door_2.close(wait = True)
-                pokes_active_phase = box.timing.new_phase('pokes_active', length = 1000)
+                pokes_active_phase = box.timing.new_phase('pokes_active', length = total_time_phase.get_time_remaining())
                 poke_d1.set_poke_target(FR)
                 poke_d2.set_poke_target(FR)
                 poke_d1.activate_LED()
