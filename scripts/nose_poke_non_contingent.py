@@ -63,12 +63,12 @@ def run():
     
     
     if RUNTIME_DICT['active_door'] == 'door_1':
-
+        print(f'active door is: door_1')
         poke_active = poke_d1
         door_active = door_1
 
     elif RUNTIME_DICT['active_door'] == 'door_2':
-        
+        print(f'active door is: door_2')
         poke_active = poke_d2
         door_active = door_2
 

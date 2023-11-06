@@ -44,7 +44,7 @@ def run():
     box.beams.door2_ir.start_getting_beam_broken_durations()
     d1_reward_phase = box.timing.new_phase('reward_phase',length = 0.05)
     d2_reward_phase = box.timing.new_phase('reward_phase',length = 0.05)
-    
+    house_light = box.house_lights.house_light
     
     phase.wait()
     total_time = box.get_software_setting(location = 'values', setting_name = 'experiment_length', default = 30*60)
@@ -69,6 +69,7 @@ def run():
     
     poke_d2.set_poke_target(FR)
     poke_d2.activate_LED(percent_brightness = 50)
+    house_light.activate(pct = 100)
     pokes_active_phase = box.timing.new_phase('pokes_active', length = total_time_phase.get_time_remaining())
     while total_time_phase.active():
         
@@ -76,9 +77,16 @@ def run():
             if not d1_reward_phase.active():
                 door_1_reward = False
                 door_1.close(wait = True)
+
+                iti_phase = box.timing.new_phase('iti', length = box.software_config['values']['iti_length'])
+                iti_phase.wait()
                 pokes_active_phase = box.timing.new_phase('pokes_active', length = total_time_phase.get_time_remaining())
+                
                 poke_d1.set_poke_target(FR)
                 poke_d2.set_poke_target(FR)
+
+                house_light.activate(pct = 100)
+
                 poke_d1.activate_LED()
                 poke_d2.activate_LED()
         
@@ -86,18 +94,27 @@ def run():
             if not d2_reward_phase.active():
                 door_2_reward = False
                 door_2.close(wait = True)
+                
+                iti_phase = box.timing.new_phase('iti', length = box.software_config['values']['iti_length'])
+                iti_phase.wait()
                 pokes_active_phase = box.timing.new_phase('pokes_active', length = total_time_phase.get_time_remaining())
+                
                 poke_d1.set_poke_target(FR)
                 poke_d2.set_poke_target(FR)
+
+                house_light.activate(pct = 100)
+
                 poke_d1.activate_LED()
                 poke_d2.activate_LED()
             
             
         if poke_d1.pokes_reached and not door_1_reward:
             pokes_active_phase.end_phase()
+            house_light.activate(pct = 5)
             poke_d1.deactivate_LED()
             poke_d2.deactivate_LED()
-            speaker.play_tone(tone_name = f'door_1_open', wait = True)
+            speaker.play_tone(tone_name = f'door_open', wait = True)
+            
             timeout = box.timing.new_timeout(length = delay)
             timeout.wait()
             door_1.open()
@@ -110,7 +127,9 @@ def run():
             pokes_active_phase.end_phase()
             poke_d1.deactivate_LED()
             poke_d2.deactivate_LED()
-            speaker.play_tone(tone_name = f'door_2_open', wait = True)
+            house_light.activate(pct = 5)
+            speaker.play_tone(tone_name = f'door_open', wait = True)
+            
             timeout = box.timing.new_timeout(length = delay)
             timeout.wait()
             door_2.open()
@@ -127,9 +146,8 @@ def run():
         else:
             d1_reward_phase.wait()
             door_1.close()
-        
+        house_light.deactivate()
         box.timing.new_timeout(length = 1)
-    
     box.shutdown()
 
 if __name__ == '__main__':

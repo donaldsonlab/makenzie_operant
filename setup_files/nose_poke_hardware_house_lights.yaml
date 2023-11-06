@@ -59,7 +59,6 @@ house_light:
   house_light:
     pin: 2
 
-outputs:
 
 inputs:
   iti:
