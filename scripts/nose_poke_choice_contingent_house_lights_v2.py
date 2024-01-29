@@ -46,7 +46,7 @@ def run():
     d1_reward_phase = box.timing.new_phase('reward_phase',length = 0.05)
     d2_reward_phase = box.timing.new_phase('reward_phase',length = 0.05)
     house_light = box.house_lights.house_light
-    
+    house_light.activate(pct = 5)
     phase.wait()
     total_time = box.get_software_setting(location = 'values', setting_name = 'experiment_length', default = 30*60)
     
@@ -70,7 +70,7 @@ def run():
     
     poke_d2.set_poke_target(FR)
     poke_d2.activate_LED(percent_brightness = 50)
-    house_light.activate(pct = 5)
+    
     pokes_active_phase = box.timing.new_phase('pokes_active', length = total_time_phase.get_time_remaining())
     while total_time_phase.active():
         
