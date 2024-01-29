@@ -39,7 +39,7 @@ def run():
     speaker = box.speakers.speaker
     delay = box.get_delay()
     FR = box.get_software_setting(location = 'values', setting_name='FR', default = 1)
-    tone = box.get_software_setting(location = 'checks', setting_name='tones_used', default = 1)
+    tone = box.get_software_setting(location = 'checks', setting_name='tones_active', default = 1)
     #start beam break monitoring. calculate durations
     box.beams.door1_ir.start_getting_beam_broken_durations() 
     box.beams.door2_ir.start_getting_beam_broken_durations()
