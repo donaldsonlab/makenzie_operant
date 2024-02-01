@@ -18,14 +18,23 @@ values:
 
 speaker_tones:
   speaker:
-    door_open:
+    door_1_open:
       type: structured
       hz: 3000
       #milliseconds
       on_time: 100
       off_time: 10
       #seconds
-      length: 1
+      length: 2
+    
+    door_2_open:
+      type: structured
+      hz: 6000
+      #milliseconds
+      on_time: 250
+      off_time: 200
+      #seconds
+      length: 2
 
     round_start:
       type: continuous
