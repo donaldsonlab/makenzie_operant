@@ -117,7 +117,7 @@ def run():
             poke_d1.deactivate_LED()
             poke_d2.deactivate_LED()
             if tone:
-                speaker.play_tone(tone_name = f'door_open', wait = True)
+                speaker.play_tone(tone_name = f'door_1_open', wait = True)
             
             timeout = box.timing.new_timeout(length = delay)
             timeout.wait()
@@ -132,7 +132,7 @@ def run():
             poke_d1.deactivate_LED()
             poke_d2.deactivate_LED()
             if tone:
-                speaker.play_tone(tone_name = f'door_open', wait = True)
+                speaker.play_tone(tone_name = f'door_2_open', wait = True)
             
             timeout = box.timing.new_timeout(length = delay)
             timeout.wait()
