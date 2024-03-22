@@ -78,9 +78,19 @@ def run():
             if not d1_reward_phase.active():
                 door_1_reward = False
                 door_1.close(wait = True)
-                if box.software_config['values']['iti_length'] > 0:
+
+                #turn on LED to indicate animal must be moved. 
+                box.outputs.round_LED.activate()
+                #wait for a button called iti to be pressed before 
+                box.inputs.iti.wait_for_press()
+
+                box.outputs.round_LED.deactivate()
+
+                if box.software_config['values']['iti_length'] > -1:
+
                     iti_phase = box.timing.new_phase('iti', length = box.software_config['values']['iti_length'])
                     iti_phase.wait()
+
                 pokes_active_phase = box.timing.new_phase('pokes_active', length = total_time_phase.get_time_remaining())
                 
                 poke_d1.set_poke_target(FR)
@@ -100,8 +110,10 @@ def run():
                 box.outputs.round_LED.activate()
                 #wait for a button called iti to be pressed before 
                 box.inputs.iti.wait_for_press()
+
+                box.outputs.round_LED.deactivate()
                 
-                if box.software_config['values']['iti_length'] > 0:
+                if box.software_config['values']['iti_length'] > -1:
                     iti_phase = box.timing.new_phase('iti', length = box.software_config['values']['iti_length'])
                     iti_phase.wait()
                     
