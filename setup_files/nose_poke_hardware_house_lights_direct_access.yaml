@@ -9,7 +9,7 @@ doors:
     stop: 0.05
     close: -0.5
     open: 0.8
-    open_time: 2.5
+    open_time: 3.5
     override_open_pin: 24
     override_close_pin: 25
     state_switch: 4
@@ -21,7 +21,7 @@ doors:
     stop: 0.03
     close: 0.8
     open: -0.2
-    open_time: 2.5
+    open_time: 3.5
     override_open_pin: 6
     override_close_pin: 5
     state_switch: 17
@@ -55,14 +55,14 @@ nose_pokes:
       type: HAT
       channel: 14
 
-outputs:
-  round_LED:
-    type: HAT
-    channel: 15
+house_light:
+  house_light:
+    pin: 2
+
 
 inputs:
   iti:
     pullup_pulldown: pullup
-    pin: 16
+    pin: 20
       
 
