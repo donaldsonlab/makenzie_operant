@@ -60,6 +60,10 @@ outputs:
     type: HAT
     channel: 15
 
+  miniscope_trigger:
+      type: GPIO
+      pin: 23
+
 inputs:
   iti:
     pullup_pulldown: pullup
