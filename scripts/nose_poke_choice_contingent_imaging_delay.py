@@ -45,8 +45,7 @@ def run():
     box.beams.door2_ir.start_getting_beam_broken_durations()
     d1_reward_phase = box.timing.new_phase('reward_phase',length = 0.05)
     d2_reward_phase = box.timing.new_phase('reward_phase',length = 0.05)
-    house_light = box.house_lights.house_light
-    house_light.activate(pct = 5)
+
     phase.wait()
     total_time = box.get_software_setting(location = 'values', setting_name = 'experiment_length', default = 30*60)
     
@@ -113,7 +112,6 @@ def run():
             
         if poke_d1.pokes_reached and not door_1_reward:
             pokes_active_phase.end_phase()
-            house_light.activate(pct = 5)
             poke_d1.deactivate_LED()
             poke_d2.deactivate_LED()
             if tone:
@@ -150,7 +148,6 @@ def run():
         else:
             d1_reward_phase.wait()
             door_1.close()
-        house_light.deactivate()
         box.timing.new_timeout(length = 1)
     box.shutdown()
 
