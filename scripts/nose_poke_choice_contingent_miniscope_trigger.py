@@ -4,8 +4,8 @@ from pathlib import Path
 experiment_name = Path(__file__).stem
 RUNTIME_DICT = {'vole':000, 'day':1, 'experiment':experiment_name, 'port_side':'same'}
 # # For Running on the Raspberry Pi: 
-USER_HARDWARE_CONFIG_PATH = '/home/pi/local_rpi_files/default_hardware.yaml'
-USER_SOFTWARE_CONFIG_PATH = '/home/pi/miniscope_dec_2022/setup_files/door_train.yaml'
+USER_HARDWARE_CONFIG_PATH = '/home/pi/makenzie_operant/setup_files/nose_poke_hardware.yaml'
+USER_SOFTWARE_CONFIG_PATH = '/home/pi/makenzie_operant/setup_files/nose_poke_cohort4_v1.yaml'
  
 box = Box()
 
@@ -14,9 +14,18 @@ def run():
     box.setup(run_dict=RUNTIME_DICT, 
               user_hardware_config_file_path=USER_HARDWARE_CONFIG_PATH,
               user_software_config_file_path=USER_SOFTWARE_CONFIG_PATH,
-              start_now=True, simulated = False, verbose = False)
-    phase = box.timing.new_phase('setup_phase', length = 3)
+              start_now=False, simulated = False, verbose = False)
+    
+    if box.software_config['checks']['trigger_on_start']:
+        
+        trigger_object = box.outputs.miniscope_trigger.prepare_trigger()
+    
+    if box.software_config['checks']['trigger_on_start']:
+        box.start_and_trigger([trigger_object])
+    
     box.reset()
+
+    phase = box.timing.new_phase('setup_phase', length = 3)
     
     door_1 = box.doors.door_1
     door_2 = box.doors.door_2
@@ -24,6 +33,8 @@ def run():
     box.nose_pokes.nose_port_1.deactivate_LED()
     box.nose_pokes.nose_port_2.deactivate_LED()
     
+    
+
     if RUNTIME_DICT['port_side'] == 'same':
     #simplifying hardware calls
         poke_d1 = box.nose_pokes.nose_port_1
@@ -45,8 +56,7 @@ def run():
     box.beams.door2_ir.start_getting_beam_broken_durations()
     d1_reward_phase = box.timing.new_phase('reward_phase',length = 0.05)
     d2_reward_phase = box.timing.new_phase('reward_phase',length = 0.05)
-    #house_light = box.house_lights.house_light
-    #house_light.activate(pct = 5)
+
     phase.wait()
     total_time = box.get_software_setting(location = 'values', setting_name = 'experiment_length', default = 30*60)
     
@@ -113,11 +123,10 @@ def run():
             
         if poke_d1.pokes_reached and not door_1_reward:
             pokes_active_phase.end_phase()
-            #house_light.activate(pct = 5)
             poke_d1.deactivate_LED()
             poke_d2.deactivate_LED()
             if tone:
-                speaker.play_tone(tone_name = f'door_1_open', wait = True)
+                speaker.play_tone(tone_name = f'door_1_open', wait = False)
             
             timeout = box.timing.new_timeout(length = delay)
             timeout.wait()
@@ -132,7 +141,7 @@ def run():
             poke_d1.deactivate_LED()
             poke_d2.deactivate_LED()
             if tone:
-                speaker.play_tone(tone_name = f'door_2_open', wait = True)
+                speaker.play_tone(tone_name = f'door_2_open', wait = False)
             
             timeout = box.timing.new_timeout(length = delay)
             timeout.wait()
@@ -150,7 +159,6 @@ def run():
         else:
             d1_reward_phase.wait()
             door_1.close()
-        #house_light.deactivate()
         box.timing.new_timeout(length = 1)
     box.shutdown()
 

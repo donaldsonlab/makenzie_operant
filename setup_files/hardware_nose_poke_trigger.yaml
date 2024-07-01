@@ -37,7 +37,7 @@ beams:
     pullup_pulldown: pullup
 
 nose_pokes:
-  #same pin as food lever
+  #same pin as lever 1
   nose_port_1:
     pin: 18
     pullup_pulldown: pullup
@@ -46,7 +46,7 @@ nose_pokes:
       type: HAT
       channel: 15
 
-  #same pin as lever 1
+  #same pin as food
   nose_port_2:
     pin: 27
     pullup_pulldown: pullup

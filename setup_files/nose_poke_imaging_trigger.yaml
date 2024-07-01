@@ -5,7 +5,15 @@ checks:
   tones_active: True
   click_on: False
   trigger_on_start: True
-  
+  serial_send:
+    door_1: True
+    door_2: True
+    door_1_tone: True
+    door_2_tone: True
+    minus_tone: True
+    speaker: True
+    nose_port_1: True
+    nose_port_2: True
 
 
 values:
