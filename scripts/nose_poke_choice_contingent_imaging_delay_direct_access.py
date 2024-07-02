@@ -119,8 +119,11 @@ def run():
             
         if poke_d1.pokes_reached and not door_1_reward:
             pokes_active_phase.end_phase()
+            
             poke_d1.deactivate_LED()
             poke_d2.deactivate_LED()
+            
+            poke_d2.reset_poke_count()
             if tone:
                 speaker.play_tone(tone_name = f'door_1_open', wait = True)
             
@@ -130,12 +133,15 @@ def run():
             door_1_reward = True
             d1_reward_phase = box.timing.new_phase(f'reward_phase_door_1',length = box.software_config['values']['reward_length'])
             poke_d1.reset_poke_count()
-            poke_d2.reset_poke_count()
+            
         
         if poke_d2.pokes_reached and not door_2_reward:
             pokes_active_phase.end_phase()
             poke_d1.deactivate_LED()
             poke_d2.deactivate_LED()
+            
+            poke_d1.reset_poke_count()
+            
             if tone:
                 speaker.play_tone(tone_name = f'door_2_open', wait = True)
             
@@ -144,7 +150,7 @@ def run():
             door_2.open()
             door_2_reward = True
             d2_reward_phase = box.timing.new_phase(f'reward_phase_door_2',length = box.software_config['values']['reward_length'])
-            poke_d1.reset_poke_count()
+            
             poke_d2.reset_poke_count()
             
             
