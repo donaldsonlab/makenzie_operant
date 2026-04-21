@@ -5,7 +5,7 @@ experiment_name = Path(__file__).stem
 RUNTIME_DICT = {'vole':000, 'day':1, 'experiment':experiment_name, 'port_side':'same'}
 # # For Running on the Raspberry Pi: 
 USER_HARDWARE_CONFIG_PATH = '/home/pi/makenzie_operant/setup_files/nose_poke_hardware.yaml'
-USER_SOFTWARE_CONFIG_PATH = '/home/pi/makenzie_operant/setup_files/nose_poke_cohort4_v1.yaml'
+USER_SOFTWARE_CONFIG_PATH = '/home/pi/makenzie_operant/setup_files/nose_poke_FR2.yaml'
  
 box = Box()
 
