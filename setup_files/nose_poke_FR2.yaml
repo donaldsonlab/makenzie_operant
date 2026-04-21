@@ -3,7 +3,7 @@ output_path: 'default'
 checks:
   save_timestamps: True
   tones_active: True
-  click_on: False
+  click_on: True
 
 
 values:
