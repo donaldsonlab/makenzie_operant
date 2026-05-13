@@ -129,8 +129,7 @@ def run():
             poke_d1.reset_poke_count()
             poke_d2.reset_poke_count()
 
-            poke_d2.set_poke_target(1000)
-            # how do I turn off clicks for just one port???
+            # how do I turn off clicks for just one port???, setting pokes to inactive, which reset_poke_count does
             
             poke_d1.set_poke_target(FR2)
 
@@ -152,7 +151,6 @@ def run():
                     poke_d1.reset_poke_count()
                     poke_d2.reset_poke_count()
 
-                reward_pokes_phase.wait()
             # exiting reward pokes phase by timeout
             if not reward_pokes_phase.active() and not door_1_reward and not pokes_active_phase.active():
                 reward_pokes_phase.end()
@@ -176,9 +174,7 @@ def run():
             poke_d1.deactivate_LED()
             poke_d1.reset_poke_count()
             poke_d2.reset_poke_count()
-
-            poke_d1.set_poke_target(1000)
-            
+   
             poke_d2.set_poke_target(FR2)
 
             while reward_pokes_phase.active():
@@ -199,7 +195,6 @@ def run():
                     poke_d1.reset_poke_count()
                     poke_d2.reset_poke_count()
 
-                reward_pokes_phase.wait() # where should this go?
             # exiting reward pokes phase by timeout
             if not reward_pokes_phase.active() and not door_2_reward and not pokes_active_phase.active():
                 reward_pokes_phase.end()
