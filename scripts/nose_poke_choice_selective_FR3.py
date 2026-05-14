@@ -156,22 +156,22 @@ def run():
                     poke_d1.reset_poke_count()
                     poke_d2.reset_poke_count()
 
-        # exiting reward pokes phase by timeout
-        if not d1_reward_pokes_phase.active() and d1_part_two:
-            d1_reward_pokes_phase.end()
-            d1_part_two = False
+            # exiting reward pokes phase by timeout
+            if not d1_reward_pokes_phase.active() and d1_part_two:
+                d1_reward_pokes_phase.end()
+                d1_part_two = False
 
-            pokes_active_phase = box.timing.new_phase('pokes_active', length = total_time_phase.get_time_remaining())
-            poke_d1.reset_poke_count()
-            poke_d2.reset_poke_count()
+                pokes_active_phase = box.timing.new_phase('pokes_active', length = total_time_phase.get_time_remaining())
+                poke_d1.reset_poke_count()
+                poke_d2.reset_poke_count()
 
-            poke_d1.set_poke_target(FR)
-            poke_d2.set_poke_target(FR)
+                poke_d1.set_poke_target(FR)
+                poke_d2.set_poke_target(FR)
 
 
 
-            poke_d1.activate_LED()
-            poke_d2.activate_LED()
+                poke_d1.activate_LED()
+                poke_d2.activate_LED()
         
         if poke_d2.pokes_reached and not d2_part_two:
             pokes_active_phase.end_phase()
@@ -203,20 +203,20 @@ def run():
                     poke_d1.reset_poke_count()
                     poke_d2.reset_poke_count()
 
-        # exiting reward pokes phase by timeout
-        if not d2_reward_pokes_phase.active() and d2_part_two:
-            d2_reward_pokes_phase.end()
-            d2_part_two = False
+            # exiting reward pokes phase by timeout
+            if not d2_reward_pokes_phase.active() and d2_part_two:
+                d2_reward_pokes_phase.end()
+                d2_part_two = False
 
-            pokes_active_phase = box.timing.new_phase('pokes_active', length = total_time_phase.get_time_remaining())
-            poke_d1.reset_poke_count()
-            poke_d2.reset_poke_count()
+                pokes_active_phase = box.timing.new_phase('pokes_active', length = total_time_phase.get_time_remaining())
+                poke_d1.reset_poke_count()
+                poke_d2.reset_poke_count()
 
-            poke_d1.set_poke_target(FR)
-            poke_d2.set_poke_target(FR)
+                poke_d1.set_poke_target(FR)
+                poke_d2.set_poke_target(FR)
 
-            poke_d1.activate_LED()
-            poke_d2.activate_LED()
+                poke_d1.activate_LED()
+                poke_d2.activate_LED()
             
             
     if door_1_reward or door_2_reward:
