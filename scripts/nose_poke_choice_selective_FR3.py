@@ -148,7 +148,7 @@ def run():
                     
                     timeout = box.timing.new_timeout(length = delay)
                     timeout.wait()
-                    d1_reward_pokes_phase.end()
+                    d1_reward_pokes_phase.end_phase()
                     d1_part_two = False
                     door_1.open()
                     door_1_reward = True
@@ -158,7 +158,7 @@ def run():
 
             # exiting reward pokes phase by timeout
             if not d1_reward_pokes_phase.active() and d1_part_two:
-                d1_reward_pokes_phase.end()
+                d1_reward_pokes_phase.end_phase()
                 d1_part_two = False
 
                 pokes_active_phase = box.timing.new_phase('pokes_active', length = total_time_phase.get_time_remaining())
@@ -195,7 +195,7 @@ def run():
                     
                     timeout = box.timing.new_timeout(length = delay)
                     timeout.wait()
-                    d2_reward_pokes_phase.end()
+                    d2_reward_pokes_phase.end_phase()
                     d2_part_two = False
                     door_2.open()
                     door_2_reward = True
@@ -205,7 +205,7 @@ def run():
 
             # exiting reward pokes phase by timeout
             if not d2_reward_pokes_phase.active() and d2_part_two:
-                d2_reward_pokes_phase.end()
+                d2_reward_pokes_phase.end_phase()
                 d2_part_two = False
 
                 pokes_active_phase = box.timing.new_phase('pokes_active', length = total_time_phase.get_time_remaining())
